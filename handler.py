@@ -3,6 +3,8 @@ from tornado.web import RequestHandler
 from database import uuid, init_database,Applicant
 import forms
 
+USERNAME = 'root'
+PASSWD = ''
 
 class MainHandler(RequestHandler):
     # for test
@@ -19,11 +21,10 @@ class MainHandler(RequestHandler):
         print(form.validate())
         print(form.errors)
         if form.validate():
-            print(1)
-            self.insert_applicant(form)
+            self.insert_applicant(USERNAME, PASSWD,form)
 
-    def insert_applicant(self, form):
-        session = init_database('funemy', 'Funemy2Wmj')
+    def insert_applicant(self, username, passwd, form):
+        session = init_database(username, passwd)
         new_applicant = Applicant(id=uuid.uuid4(),
                                   name=form.name.data,
                                   gender=form.gender.data,
