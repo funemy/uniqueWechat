@@ -2,36 +2,36 @@
 
 ----------------------------------------------------------------------
 
-报名接口：
+**报名接口：**
 
 	/wechat
 
 	POST
 
-	数据库的账户密码修改handler.py中的USERNAME和PASSWD
+	数据库的账户密码修改handler.py中的`USERNAME`和`PASSWD`
 
 	表单格式：
 
-		name:[Unicode, nullable=False]
+		**name**:[Unicode, nullable=False]
 
-		gender:[Unicode, nullable=False]
+		**gender**:[Unicode, nullable=False]
 
-		campus:[Unicode, nullable=False]
+		**campus**:[Unicode, nullable=False]
 
 				单选框
 
 				数据格式:yy/zs/qy
 
-		major:[Unicode, nullable=False]
+		**major**:[Unicode, nullable=False]
 
-		contact:[BigInteger, nullable=False]
+		**contact**:[BigInteger, nullable=False]
 
-		backup_contact:[BigInterger, **nullable=True**]
+		**backup_contact**:[BigInterger, **nullable=True**]
 
-		group:[Unicode, nullable=False]
+		**group**:[Unicode, nullable=False]
 
-			单选框
+				单选框
 
-			数据格式:Android/Web/iOS/Design/lab/PM
+				数据格式:Android/Web/iOS/Design/lab/PM
 
-		intro:[Unicode, **nullable=True**]
+		**intro**:[Unicode, **nullable=True**]
