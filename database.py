@@ -51,7 +51,7 @@ class Applicant(Base):
                 primary_key=True)
 
     # name of the applicant
-    name = Column(Unicode(16),
+    name = Column(Unicode(8),
                   nullable=False)
 
     # gender
@@ -63,7 +63,7 @@ class Applicant(Base):
     campus = Column(Unicode(2),
                     nullable=False)
 
-    major = Column(Unicode(128),
+    major = Column(Unicode(32),
                    nullable=False)
 
     # phone number
@@ -117,6 +117,36 @@ class Applicant(Base):
         self.inter_place = inter_place
         self.status = status
 
+
+class Advice(Base):
+    __tablename__ = 'advice'
+
+    id = Column(GUID(),
+                default=uuid.uuid4,
+                primary_key=True)
+
+    name = Column(Unicode(8),
+                  nullable=False)
+
+    major = Column(Unicode(32),
+                   nullable=False)
+
+    email = Column(Unicode(),
+                   nullable=False)
+
+    advice = Column(Unicode(2000),
+                    nullable=False)
+
+    def __init__(self, id,
+                 name,
+                 major,
+                 email,
+                 advice):
+        self.id = id
+        self.name = name
+        self.major = major
+        self.email = email
+        self.advice = advice
 
 def init_database(username='root', passwd='', url='localhost:3307/uniqueWechat'):
     engine = create_engine(

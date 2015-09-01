@@ -7,13 +7,14 @@ from wtforms.validators import (ValidationError,
                                 StopValidation,
                                 InputRequired,
                                 NumberRange,
-                                EqualTo,
+                                Email,
                                 Length)
 
 
 class ApplicantForm(Form):
     name = StringField('name', [
-        InputRequired()
+        InputRequired(),
+        Length(max=8)
     ])
 
     gender = SelectField('gemder',
@@ -30,7 +31,8 @@ class ApplicantForm(Form):
                          )
 
     major = StringField('major', [
-        InputRequired()
+        InputRequired(),
+        Length(max=32)
     ])
 
     contact = IntegerField('contact', [
@@ -62,3 +64,24 @@ class ApplicantForm(Form):
         else:
             if field.data < 10000000000 or field.data > 19999999999:
                 raise ValidationError('invalid phone number')
+
+class AdviceForm(Form):
+    name = name = StringField('name', [
+        InputRequired(),
+        Length(max=8)
+    ])
+
+    major = StringField('major', [
+        InputRequired(),
+        Length(max=32)
+    ])
+
+    email = StringField('email', [
+        InputRequired(),
+        Email()
+    ])
+
+    advice = StringField('advice', [
+        InputRequired()
+        Length(max=2000)
+    ])

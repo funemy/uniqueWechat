@@ -1,30 +1,32 @@
 from tornado.web import RequestHandler
 
-from database import uuid, init_database,Applicant
+from database import uuid, init_database,Applicant,Advice
 import forms
 
 USERNAME = 'root'
 PASSWD = ''
+URL = 'localhost:3307/uniqueWechat'
 
 class MainHandler(RequestHandler):
-    # for test
-    def get(self):
-        print(self.request.arguments)
-        # self.write(self.get_argument("name"))
-        # self.write(self.request.arguments)
-
     def post(self):
-        print(self.request.arguments)
+        self.write('hello world')
+
+    # def search(self):
+
+    # def update(self)
+
+
+class ApplyHandler(RequestHandler):
+    def post(self):
         form = forms.ApplicantForm(self.request.arguments,
                                    locale_code=self.locale.code)
-        print(form.name.data)
-        print(form.validate())
-        print(form.errors)
         if form.validate():
-            self.insert_applicant(USERNAME, PASSWD,form)
+            self.insert_applicant(USERNAME, PASSWD, form)
+        else:
+            self.write(form.errors)
 
-    def insert_applicant(self, username, passwd, form):
-        session = init_database(username, passwd)
+    def insert_applicant(self, form):
+        session = init_database(USERNAME, PASSWD, URL)
         new_applicant = Applicant(id=uuid.uuid4(),
                                   name=form.name.data,
                                   gender=form.gender.data,
@@ -38,7 +40,22 @@ class MainHandler(RequestHandler):
         session.commit()
         session.close()
 
-    # def search(self):
+class AdviceHandler(RequestHandler):
+    def post(self):
+        form = forms.ApplicantForm(self.request.arguments,
+                                   locale_code=self.locale.code)
+        if form.validate():
+            self.insert_advice(form)
+        else:
+            self.write(form.errors)
 
-
-    # def update(self)
+    def insert(self, form):
+        session = init_database(USERNAME, PASSWD, URL)
+        new_advice = Advice(id=uuid.uuid4(),
+                            name=form.name.data,
+                            major=form.major.data,
+                            email=form.email.data,
+                            advice=form.advice.data)
+        session.add(new_advice)
+        session.commit()
+        session.close()
