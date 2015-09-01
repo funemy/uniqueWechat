@@ -131,7 +131,7 @@ class Advice(Base):
     major = Column(Unicode(32),
                    nullable=False)
 
-    email = Column(Unicode(),
+    email = Column(Unicode(32),
                    nullable=False)
 
     advice = Column(Unicode(2000),
