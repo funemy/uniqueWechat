@@ -54,6 +54,9 @@
 **表单格式：**
 
 - `name`:[Unicode, nullable=False]
+
 - `major`:[Unicode, nullable=False]
+
 - `email`:[Unicode, nullable=False]
+
 - `advice`:[Unicode, nullable=False]
