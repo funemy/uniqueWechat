@@ -2,7 +2,7 @@
 
 #### **报名接口**
 
-	**/applicant**
+	/applicant
 
 	POST
 
@@ -43,7 +43,7 @@
 
 #### 联系接口
 
-	**/advice**
+	/advice
 
 	POST
 
