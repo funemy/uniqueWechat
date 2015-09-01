@@ -54,9 +54,16 @@
 **表单格式：**
 
 - `name`:[Unicode, nullable=False]
-
 - `major`:[Unicode, nullable=False]
-
 - `email`:[Unicode, nullable=False]
-
 - `advice`:[Unicode, nullable=False]
+
+
+
+#### 部署说明：
+
+运行环境：`python3`
+
+依赖包：`wtforms` `sqlalchemy` `tornado`
+
+数据库：`mysql` 数据库的账号密码在handler.py里改

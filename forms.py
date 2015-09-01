@@ -36,13 +36,10 @@ class ApplicantForm(Form):
     ])
 
     contact = IntegerField('contact', [
-        InputRequired(),
-        NumberRange(min=10000000000,
-                    max=19999999999)
+        InputRequired()
     ])
 
-    backup_contact = IntegerField('backup contact', [
-    ])
+    backup_contact = IntegerField('backup contact', [])
 
     group = SelectField('group',
                         default='Android',
@@ -57,6 +54,10 @@ class ApplicantForm(Form):
     intro = StringField('introduction', [
         Length(max=2000)
     ])
+
+    def validate_contact(form, field):
+        if field.data < 10000000000 or field.data > 19999999999:
+            raise ValidationError('invalid phone number')
 
     def validate_backup_contact(form, field):
         if field.data is None:
@@ -82,6 +83,6 @@ class AdviceForm(Form):
     ])
 
     advice = StringField('advice', [
-        InputRequired()
+        InputRequired(),
         Length(max=2000)
     ])

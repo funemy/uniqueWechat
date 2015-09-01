@@ -21,8 +21,9 @@ class ApplyHandler(RequestHandler):
         form = forms.ApplicantForm(self.request.arguments,
                                    locale_code=self.locale.code)
         if form.validate():
-            self.insert_applicant(USERNAME, PASSWD, form)
+            self.insert_applicant(form)
         else:
+            self.set_status(400)
             self.write(form.errors)
 
     def insert_applicant(self, form):
@@ -49,7 +50,7 @@ class AdviceHandler(RequestHandler):
         else:
             self.write(form.errors)
 
-    def insert(self, form):
+    def insert_advice(self, form):
         session = init_database(USERNAME, PASSWD, URL)
         new_advice = Advice(id=uuid.uuid4(),
                             name=form.name.data,
