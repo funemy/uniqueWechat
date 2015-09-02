@@ -32,9 +32,7 @@
 
 - `backup_contact`:[BigInterger, **nullable=True**]
   
-  当**该项为空**时
-  
-  POST数据请**不要有backup_contact这个条目**
+  backup_contact提交的bug已修复
 
 
 - `group`:[Unicode, nullable=False]
