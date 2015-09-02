@@ -66,6 +66,6 @@
 
 运行环境：`python3`
 
-依赖包：`wtforms` `sqlalchemy` `tornado`
+依赖包：`wtforms` `sqlalchemy` `tornado` `mysql-connector-python`
 
 数据库：`mysql` 数据库的账号密码在database.py里改
