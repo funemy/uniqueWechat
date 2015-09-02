@@ -7,8 +7,16 @@ from sqlalchemy.dialects.postgresql import UUID
 
 import uuid
 
-Base = declarative_base()
+USERNAME = 'root'
+PASSWD = ''
+URL = 'localhost:3307/uniqueWechat'
 
+Base = declarative_base()
+engine = create_engine(
+    'mysql+mysqlconnector://%(username)s:%(passwd)s@%(url)s' % {'username': USERNAME,
+                                                                'passwd': PASSWD,
+                                                                'url': URL})
+db_session = sessionmaker(bind=engine)
 
 class GUID(TypeDecorator):
     """Platform-independent GUID type.
@@ -131,7 +139,7 @@ class Advice(Base):
     major = Column(Unicode(32),
                    nullable=False)
 
-    email = Column(Unicode(32),
+    email = Column(Unicode(64),
                    nullable=False)
 
     advice = Column(Unicode(2000),
@@ -148,18 +156,12 @@ class Advice(Base):
         self.email = email
         self.advice = advice
 
-def init_database(username='root', passwd='', url='localhost:3307/uniqueWechat'):
-    engine = create_engine(
-        'mysql+mysqlconnector://%(username)s:%(passwd)s@%(url)s' % {'username': username,
-                                                                    'passwd': passwd,
-                                                                    'url': url})
+def init_database():
     Base.metadata.create_all(engine)
-    db_session = sessionmaker(bind=engine)
-    return db_session()
 
 if __name__ == "__main__":
     # test case
-    session = init_database('funemy', 'Funemy2Wmj')
+    session = db_session()
     new_applicant = Applicant(id=uuid.uuid4(),
                               name="简小奇",
                               gender="男",

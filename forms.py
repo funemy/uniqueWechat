@@ -17,7 +17,7 @@ class ApplicantForm(Form):
         Length(max=8)
     ])
 
-    gender = SelectField('gemder',
+    gender = SelectField('gender',
                          default='male',
                          choices=[('male', 'male'),
                                  ('female', 'female')]
@@ -67,7 +67,7 @@ class ApplicantForm(Form):
                 raise ValidationError('invalid phone number')
 
 class AdviceForm(Form):
-    name = name = StringField('name', [
+    name = StringField('name', [
         InputRequired(),
         Length(max=8)
     ])

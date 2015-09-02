@@ -6,9 +6,9 @@
 
 	POST
 
-	数据库的账户密码修改handler.py中的`USERNAME`和`PASSWD`
+	数据库的账户密码修改database.py中的`USERNAME`和`PASSWD`
 
-	数据库地址修改handler.py中的`URL`
+	数据库地址修改database.py中的`URL`
 
 **表单格式：**
 
@@ -31,6 +31,10 @@
 
 
 - `backup_contact`:[BigInterger, **nullable=True**]
+  
+  当**该项为空**时
+  
+  POST数据请**不要有backup_contact这个条目**
 
 
 - `group`:[Unicode, nullable=False]
@@ -66,4 +70,4 @@
 
 依赖包：`wtforms` `sqlalchemy` `tornado`
 
-数据库：`mysql` 数据库的账号密码在handler.py里改
+数据库：`mysql` 数据库的账号密码在database.py里改

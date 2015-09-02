@@ -1,7 +1,7 @@
 from tornado.ioloop import IOLoop
 from tornado.web import Application, url
 from tornado.options import define, options
-import base64, uuid
+from database import init_database
 
 import tornado.options
 import handler
@@ -21,6 +21,7 @@ def make_app():
 
 if __name__ == "__main__":
     tornado.options.parse_command_line()
+    init_database()
     app = make_app()
     app.listen(options.port)
     IOLoop.current().start()

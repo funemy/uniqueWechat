@@ -1,11 +1,8 @@
 from tornado.web import RequestHandler
 
-from database import uuid, init_database,Applicant,Advice
+from database import uuid, Applicant, Advice, db_session
 import forms
 
-USERNAME = 'root'
-PASSWD = ''
-URL = 'localhost:3307/uniqueWechat'
 
 class MainHandler(RequestHandler):
     def post(self):
@@ -27,7 +24,7 @@ class ApplyHandler(RequestHandler):
             self.write(form.errors)
 
     def insert_applicant(self, form):
-        session = init_database(USERNAME, PASSWD, URL)
+        session = db_session()
         new_applicant = Applicant(id=uuid.uuid4(),
                                   name=form.name.data,
                                   gender=form.gender.data,
@@ -43,15 +40,15 @@ class ApplyHandler(RequestHandler):
 
 class AdviceHandler(RequestHandler):
     def post(self):
-        form = forms.ApplicantForm(self.request.arguments,
-                                   locale_code=self.locale.code)
+        form = forms.AdviceForm(self.request.arguments,
+                                locale_code=self.locale.code)
         if form.validate():
             self.insert_advice(form)
         else:
             self.write(form.errors)
 
     def insert_advice(self, form):
-        session = init_database(USERNAME, PASSWD, URL)
+        session = db_session()
         new_advice = Advice(id=uuid.uuid4(),
                             name=form.name.data,
                             major=form.major.data,
