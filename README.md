@@ -51,9 +51,9 @@
 
 	POST
 
-	数据库的账户密码修改handler.py中的`USERNAME`和`PASSWD`
+	数据库的账户密码修改database.py中的`USERNAME`和`PASSWD`
 
-	数据库地址修改handler.py中的`URL`
+	数据库地址修改database.py中的`URL`
 
 **表单格式：**
 
