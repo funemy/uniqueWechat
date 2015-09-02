@@ -60,15 +60,15 @@ class ApplicantForm(Form):
             raise ValidationError('invalid phone number')
 
     def validate_backup_contact(form, field):
-        if field.data is None or field.data is '':
+        if field.data is None:
+            return
+        elif field.data is '':
             field.data = None
         elif field.data.isalnum():
             if int(field.data) < 10000000000 or int(field.data) > 19999999999:
                 raise ValidationError('invalid phone number')
-            if 10000000000 < int(field.data) < 19999999999:
-                field.data = int(field.data)
-        else:
-            raise ValidationError('phone number shall only contain numbers')
+            field.data = int(field.data)
+        raise ValidationError('phone number shall only contain numbers')
 
 class AdviceForm(Form):
     name = StringField('name', [
