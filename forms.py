@@ -68,7 +68,8 @@ class ApplicantForm(Form):
             if int(field.data) < 10000000000 or int(field.data) > 19999999999:
                 raise ValidationError('invalid phone number')
             field.data = int(field.data)
-        raise ValidationError('phone number shall only contain numbers')
+        else:
+            raise ValidationError('phone number shall only contain numbers')
 
 class AdviceForm(Form):
     name = StringField('name', [

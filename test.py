@@ -1,4 +1,6 @@
-import uuid
+class Test():
+    a = 'haha'
+    b = 'lala'
 
-print(uuid.uuid4())
-print(uuid.uuid4().hex)
+test = Test()
+print(getattr(test, 'a'))

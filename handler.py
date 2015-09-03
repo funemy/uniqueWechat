@@ -8,9 +8,12 @@ class MainHandler(RequestHandler):
     def post(self):
         self.write('hello world')
 
-    # def search(self):
+    def search(self, **query):
+        session = db_session()
+        query_dict = {}
+        # session.query(Applicant).filter(Applicant.name.like()).all()
 
-    # def update(self)
+    # def update(self):
 
 
 class ApplyHandler(RequestHandler):
@@ -57,3 +60,8 @@ class AdviceHandler(RequestHandler):
         session.add(new_advice)
         session.commit()
         session.close()
+
+if __name__ == "__main__":
+    session = db_session()
+    rows = session.query(Applicant).all()
+    print(rows)
