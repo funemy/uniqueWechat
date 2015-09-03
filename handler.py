@@ -1,5 +1,4 @@
 from tornado.web import RequestHandler
-
 from database import uuid, Applicant, Advice, db_session
 import forms
 
@@ -8,13 +7,25 @@ class MainHandler(RequestHandler):
     def post(self):
         self.write('hello world')
 
-    def search(self, **query):
+    def check_status(self,
+               name=None,
+               contact=None):
         session = db_session()
-        query_dict = {}
-        # session.query(Applicant).filter(Applicant.name.like()).all()
+        if name and contact:
+            return session.query(Applicant).filter(Applicant.name==name, Applicant.contact==contact).all()
+        else:
+            return None
 
-    # def update(self):
+    def update(self, *uuid, **new_status):
+        session = db_session()
+        query = session.query(Applicant)
+        for id in uuid:
+            applicant = query.filter(Applicant.id == id).first()
+            for key in new_status:
+                applicant.__setattr__(key, new_status[key])
+        session.commit()
 
+    # def search(self)
 
 class ApplyHandler(RequestHandler):
     def post(self):
@@ -63,5 +74,10 @@ class AdviceHandler(RequestHandler):
 
 if __name__ == "__main__":
     session = db_session()
-    rows = session.query(Applicant).all()
+    rows = session.query(Applicant).filter(Applicant.group=="ESD").first()
+    rows.group = "PM"
+    rows = session.query(Applicant).filter(Applicant.group=="Design").first()
+    rows.group = 'lab'
+    session.commit()
     print(rows)
+
