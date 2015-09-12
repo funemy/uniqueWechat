@@ -8,11 +8,10 @@ class MainHandler(RequestHandler):
         self.write('hello world')
 
     def check_status(self,
-               name=None,
                contact=None):
         session = db_session()
-        if name and contact:
-            return session.query(Applicant).filter(Applicant.name==name, Applicant.contact==contact).all()
+        if contact:
+            return session.query(Applicant).filter(Applicant.contact==contact).all()
         else:
             return None
 
@@ -25,7 +24,7 @@ class MainHandler(RequestHandler):
                 applicant.__setattr__(key, new_status[key])
         session.commit()
 
-    # def search(self)
+    def search(self, ):
 
 class ApplyHandler(RequestHandler):
     def post(self):

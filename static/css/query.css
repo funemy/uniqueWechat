@@ -1,0 +1,7 @@
+.logo-container{
+	position: relative;
+}
+
+.logo-container img {
+	position: absolute;
+}
