@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>人员管理</title>
+	<!-- 新 Bootstrap 核心 CSS 文件 -->
+	<link rel="stylesheet" href="/static/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/static/css/query.css">
+	<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+	<script src="/static/js/jquery.min.js"></script>
+	<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+	<script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/invite.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+</head>
+<body>
+    <nav class="navbar-default container">
+        <ul class="nav nav-pills" role="tablist">
+            <li role="presentation"><a href="/invite">All</a></li>
+            <li role="presentation"><a href="/invite/web">Web</a></li>
+            <li role="presentation"><a href="/invite/android">Android</a></li>
+            <li role="presentation"><a href="/invite/ios">iOS</a></li>
+            <li role="presentation"><a href="/invite/lab">Lab</a></li>
+            <li role="presentation"><a href="/invite/design">Design</a></li>
+            <li role="presentation"><a href="/invite/pm">PM</a></li>
+        </ul>
+    </nav>
+    <div class="page-header container">
+      <h1>2015联创团队秋季招新 <small></small></h1>
+        <p>当前总共{{counts['all']}}人 拒绝{{counts['refuse']}}人 ,通过{{counts['pass']}}人</p>
+    </div>
+    <div class="container">
+        <div class="row">
+           <table class="table table-hover" style="text-align: center">
+               <thead>
+                    <tr>
+                        <th style="text-align: inherit">姓名</th>
+                        <th style="text-align: inherit">性别</th>
+                        <th style="text-align: inherit">专业班级</th>
+                        <th style="text-align: inherit">联系方式</th>
+                        <th style="text-align: inherit">组别</th>
+                        <th style="text-align: inherit">轮次</th>
+                        <th style="text-align: inherit">状态</th>
+                        <th style="text-align: inherit">操作</th>
+                    </tr>
+               </thead>
+
+               <tbody>
+               {% for item in data %}
+                    <tr>
+                        <td>{{item.name}}</td>
+                        <td>{{item.gender}}</td>
+                        <td>{{item.major}}</td>
+                        <td>{{item.contact}}</td>
+                        <td>{{item.group}}</td>
+                        <td>{{item.inter_round}}</td>
+                        <td>{{item.status}}</td>
+                        <td>
+                            <button type="button" data-toggle="modal" class="btn-pass" data-backdrop="static" data-target="#myModal" data-tid={{item.id}}>通过</button>
+                            <button class="btn-refuse" data-tid={{item.id}}>拒绝</button>
+                        </td>
+                    </tr>
+               {%end%}
+               </tbody>
+           </table>
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+                    <h4 class="modal-title" id="exampleModalLabel">设置面试时间日期</h4>
+                  </div>
+                  <div class="modal-body">
+                    <form id="form_time">
+                      <div class="form-group" style="display: none">
+                        <label for="item-id" class="control-label">ID</label>
+                        <input  name="id" type="text" class="form-control" id="item-id">
+                      </div>
+                      <div class="form-group">
+                        <label for="inter_time" class="control-label">时间</label>
+                        <input  name="inter_time" id="inter_time" type="datetime-local" class="form-control">
+                      </div>
+                      <div class="form-group">
+                        <label for="inter_place" class="control-label">地点</label>
+                        <input name="inter_place" id="inter_place" type="text" class="form-control">
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <!--<button type="button" class="btn btn-default" data-dismiss="modal"></button>-->
+                    <button type="button" class="btn btn-primary" id="time_submit">确认</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

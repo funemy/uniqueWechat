@@ -4,6 +4,9 @@ import forms
 
 
 class MainHandler(RequestHandler):
+    def get(self, ph):
+        self.write("hello world")
+
     def post(self):
         self.write('hello world')
 
@@ -25,6 +28,7 @@ class MainHandler(RequestHandler):
         session.commit()
 
     def search(self, ):
+        pass
 
 class ApplyHandler(RequestHandler):
     def post(self):
@@ -51,6 +55,7 @@ class ApplyHandler(RequestHandler):
         session.commit()
         session.close()
 
+
 class AdviceHandler(RequestHandler):
     def post(self):
         form = forms.AdviceForm(self.request.arguments,
@@ -71,12 +76,83 @@ class AdviceHandler(RequestHandler):
         session.commit()
         session.close()
 
+
+class QueryHandler(RequestHandler):
+    def get(self, phone_number=None):
+        session = db_session()
+        rows = session.query(Applicant).filter(Applicant.contact == phone_number).all()
+        if not phone_number:
+            self.render("query.html", result={})
+        if rows:
+            rows = rows[0]
+            result = {
+                "name": rows.name,
+                "contact": rows.contact,
+                "group": rows.group,
+                "inter_place": rows.inter_place,
+                "inter_round": rows.inter_round,
+                "inter_time": rows.inter_time,
+                "status": rows.status
+            }
+            self.render("query.html", result=result)
+        else:
+            self.render("query.html", result=False)
+
+
+class InviteHandler(RequestHandler):
+    def put(self, tid, status):
+        session = db_session()
+        row = session.query(Applicant).filter(Applicant.id == tid).first()
+        status = int(status)
+        if status:
+            row.status = "进行中"
+            row.inter_round += 1
+        else:
+            row.status = "未通过"
+        session.commit()
+        self.write("success")
+
+    def get(self, group=None):
+        session = db_session()
+        counts = {
+            'all': 0,
+            'refuse': 0,
+            'pass': 0
+        }
+        if group:
+            rows = session.query(Applicant).filter(Applicant.group == group).all()
+            counts['all'] = len(rows)
+            counts['refuse'] = len(session.query(Applicant).filter(Applicant.status == '未通过')
+                                   .filter(Applicant.group == group).all())
+            counts['pass'] = counts['all'] - counts['refuse']
+        else:
+            rows = session.query(Applicant).all()
+            counts['all'] = len(rows)
+            counts['refuse'] = len(session.query(Applicant).filter(Applicant.status == '未通过').all())
+            counts['pass'] = counts['all'] - counts['refuse']
+        self.render("invite.html", data=rows, counts=counts)
+
+
+class InfoHandler(RequestHandler):
+    def put(self):
+        tid = self.get_argument('id')
+        inter_time = self.get_argument('inter_time')
+        inter_place = self.get_argument('inter_place')
+        session = db_session()
+        row = session.query(Applicant).filter(Applicant.id == tid).first()
+        row.inter_time = inter_time
+        row.inter_place = inter_place
+        session.commit()
+        self.write("success")
+
+
 if __name__ == "__main__":
-    session = db_session()
-    rows = session.query(Applicant).filter(Applicant.group=="ESD").first()
-    rows.group = "PM"
-    rows = session.query(Applicant).filter(Applicant.group=="Design").first()
-    rows.group = 'lab'
-    session.commit()
-    print(rows)
+    pass
+    # session = db_session()
+    # rows = session.query(Applicant).filter(Applicant.group=="web").first()
+    # #rows.group = "PM"
+    # rows = session.query(Applicant).filter(Applicant.group=="web").first()
+    # #rows.group = 'web'
+    # session.commit()
+    # print(rows)
 

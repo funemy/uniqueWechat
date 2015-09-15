@@ -8,8 +8,8 @@ from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
 USERNAME = 'root'
-PASSWD = ''
-URL = 'localhost:3307/uniqueWechat'
+PASSWD = '0505'
+URL = 'localhost:3306/uniqueWechat'
 
 Base = declarative_base()
 engine = create_engine(
@@ -17,6 +17,7 @@ engine = create_engine(
                                                                 'passwd': PASSWD,
                                                                 'url': URL})
 db_session = sessionmaker(bind=engine)
+
 
 class GUID(TypeDecorator):
     """Platform-independent GUID type.
@@ -96,7 +97,12 @@ class Applicant(Base):
     inter_place = Column(Unicode(128),
                          nullable=False)
 
-    # 通过/待审核/待拒绝
+    inter_round = Column(BigInteger,
+                         nullable=False)
+
+    sms_status = Column(Unicode(32),
+                        nullable=False)
+    # 通过/拒绝/进行中
     status = Column(Unicode(8),
                     nullable=False)
 
@@ -108,9 +114,11 @@ class Applicant(Base):
                  contact,
                  group,
                  intro,
+                 inter_round=0,
                  backup_contact=None,
                  inter_time='待定',
                  inter_place='待定',
+                 sms_status='未发送',
                  status='未通过'):
         self.id = id
         self.name = name
@@ -124,6 +132,8 @@ class Applicant(Base):
         self.inter_time = inter_time
         self.inter_place = inter_place
         self.status = status
+        self.inter_round = inter_round
+        self.sms_status = sms_status
 
 
 class Advice(Base):
@@ -170,7 +180,8 @@ if __name__ == "__main__":
                               contact=13685795128,
                               backup_contact=13685795128,
                               group="web",
-                              intro="我的梦想是当校长",)
+                              intro="我的梦想是当校长",
+                              inter_round=0)
     session.add(new_applicant)
     session.commit()
     session.close()
