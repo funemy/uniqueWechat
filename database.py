@@ -8,14 +8,14 @@ from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
 USERNAME = 'root'
-PASSWD = '0505'
+PASSWD = 'aliyunmysqlP@ssw0rd'
 URL = 'localhost:3306/uniqueWechat'
 
 Base = declarative_base()
 engine = create_engine(
     'mysql+mysqlconnector://%(username)s:%(passwd)s@%(url)s' % {'username': USERNAME,
                                                                 'passwd': PASSWD,
-                                                                'url': URL})
+                                                                'url': URL}, pool_recycle=3600)
 db_session = sessionmaker(bind=engine)
 
 

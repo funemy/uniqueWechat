@@ -94,8 +94,10 @@ class QueryHandler(RequestHandler):
                 "inter_time": rows.inter_time,
                 "status": rows.status
             }
+            session.remove()
             self.render("query.html", result=result)
         else:
+            session.remove()
             self.render("query.html", result=False)
 
 
@@ -110,6 +112,7 @@ class InviteHandler(RequestHandler):
         else:
             row.status = "未通过"
         session.commit()
+        session.remove()
         self.write("success")
 
     def get(self, group=None):
@@ -130,6 +133,7 @@ class InviteHandler(RequestHandler):
             counts['all'] = len(rows)
             counts['refuse'] = len(session.query(Applicant).filter(Applicant.status == '未通过').all())
             counts['pass'] = counts['all'] - counts['refuse']
+        session.remove()
         self.render("invite.html", data=rows, counts=counts)
 
 
@@ -143,6 +147,7 @@ class InfoHandler(RequestHandler):
         row.inter_time = inter_time
         row.inter_place = inter_place
         session.commit()
+        session.remove()
         self.write("success")
 
 
